@@ -9,6 +9,9 @@ class Words(models.Model):
     ru_word = models.CharField(max_length=45)
     en_example = models.TextField()
     ru_example = models.TextField()
+    picurl = models.TextField(blank=True)
+    picau = models.CharField(max_length=60)
+    gap = models.CharField(max_length=5, default=None)
     slug = models.SlugField(unique=True)
 
     def __str__(self):
