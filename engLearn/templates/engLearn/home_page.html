@@ -4,7 +4,9 @@
 {% block content %}
     <h1>EngLearn</h1>
     {% for word in words %}
-        <p>{{ word }}</p>
+        <a href="{{ word.get_absolute_url }}"> {{ word }}</a>>
+        <br>
+        <br>
     {% endfor %}
 
     <div class="pagination">

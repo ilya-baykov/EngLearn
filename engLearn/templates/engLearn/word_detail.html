@@ -1,0 +1,12 @@
+{% extends 'engLearn/base.html' %}
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+    {{ word.en_word }}
+    <br>
+    {{ word.ru_word }}
+    <br>
+    {{ word.en_example }}
+    <br>
+    {{ word.ru_example }}
+    <br>
+{% endblock %}

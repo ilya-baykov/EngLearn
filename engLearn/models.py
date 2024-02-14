@@ -17,5 +17,8 @@ class Words(models.Model):
     class Meta:
         ordering = ('id',)
 
+    def get_absolute_url(self):
+        return self.slug
+
     def __str__(self):
         return f'{self.en_word} - {self.ru_word}'
