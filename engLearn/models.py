@@ -22,4 +22,4 @@ class Words(models.Model):
         return self.slug
 
     def __str__(self):
-        return f'{re.sub(r'\d', '', self.en_word)} - {self.ru_word}'
+        return f'{self.en_word} - {self.ru_word}'

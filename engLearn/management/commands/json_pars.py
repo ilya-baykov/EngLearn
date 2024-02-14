@@ -18,7 +18,7 @@ class Command(BaseCommand):
         slug_used = []
         for word in range(5000):
             id_word = templates[word]['id']
-            eng = templates[word]['eng']
+            eng = re.sub(r'\d', '', templates[word]['eng'])
             rus = templates[word]['rus']
             enex = templates[word]['enex']
             ruex = templates[word]['ruex']
