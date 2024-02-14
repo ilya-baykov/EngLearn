@@ -17,12 +17,6 @@ class WordsListView(ListView):
         return Words.objects.all()
 
 
-def detail_view(request, word_slug):
-    word = Words.objects.get(slug=word_slug)
-    print(word)
-    return render(request, template_name='engLearn/word_detail.html', context={'title': 'fff', 'word': word})
-
-
 class WordsDetailView(DetailView):
     model = Words
     template_name = 'engLearn/word_detail.html'
