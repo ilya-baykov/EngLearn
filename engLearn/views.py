@@ -7,14 +7,10 @@ app_name = 'engLearn'
 
 class WordsListView(ListView):
     model = Words
-    template_name = 'engLearn/base.html'
+    template_name = 'engLearn/home_page.html'
     context_object_name = 'words'
     extra_context = {'title': 'EngLearn'}
-
-    # def get_context_data(self, **kwargs):
-    #     contex = super().get_context_data(**kwargs)
-    #     contex['words'] = Words.objects.all()
-    #     return contex
+    paginate_by = 10
 
     def get_queryset(self):
         return Words.objects.all()

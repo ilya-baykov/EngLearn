@@ -1,17 +1,14 @@
-<title>{{ title }}</title>
-
-<!-- engLearn/words_list.html -->
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ title }}</title>
+    <title>{% block title %}{% endblock %}</title>
+    {#    <link href="{% static "css/blog.css" %}" rel="stylesheet">#}
 </head>
 <body>
-<h1>{{ title }}</h1>
-<ul>
-    {% for word in words %}
-        <li>{{ word }}</li>
-    {% endfor %}
-</ul>
+<div id="content">
+    {% block content %}
+    {% endblock %}
+</div>
 </body>
 </html>
