@@ -1,1 +1,17 @@
-<title>Тест</title>
+<title>{{ title }}</title>
+
+<!-- engLearn/words_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+</head>
+<body>
+<h1>{{ title }}</h1>
+<ul>
+    {% for word in words %}
+        <li>{{ word }}</li>
+    {% endfor %}
+</ul>
+</body>
+</html>
