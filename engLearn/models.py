@@ -14,5 +14,8 @@ class Words(models.Model):
     gap = models.CharField(max_length=5, default=None)
     slug = models.SlugField(unique=True)
 
+    class Meta:
+        ordering = ('id',)
+
     def __str__(self):
         return f'{self.en_word} - {self.ru_word}'
