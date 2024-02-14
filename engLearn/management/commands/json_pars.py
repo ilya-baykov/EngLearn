@@ -28,6 +28,7 @@ class Command(BaseCommand):
             slug = re.sub(r'\d', '', templates[word]['eng'].split()[0])
             slug_used.append(slug)
             slug = slug + str(slug_used.count(slug) + 1)
+            url_img = f"https://britlex.ru/images/{str(templates[word]['eng'].split()[0])}.jpg"
             print(id_word, slug)
             Words.objects.create(en_word=eng, ru_word=rus, en_example=enex, ru_example=ruex, picurl=picurl, picau=picau,
-                                 gap=gap, slug=slug)
+                                 gap=gap, slug=slug, img_link=url_img)

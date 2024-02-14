@@ -14,6 +14,7 @@ class Words(models.Model):
     picau = models.CharField(max_length=60)
     gap = models.CharField(max_length=5, default=None)
     slug = models.SlugField(unique=True)
+    img_link = models.URLField(blank=True)
 
     class Meta:
         ordering = ('id',)
