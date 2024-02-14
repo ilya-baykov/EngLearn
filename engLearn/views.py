@@ -1,3 +1,8 @@
 from django.shortcuts import render
-from models import Words
 
+app_name = 'engLearn'
+
+
+def index(request):
+    print("Вызов главной страницы")
+    return render(request, "engLearn/base.html")
