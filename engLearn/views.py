@@ -20,8 +20,16 @@ class WordsListView(ListView):
 def detail_view(request, word_slug):
     word = Words.objects.get(slug=word_slug)
     print(word)
-    return render(request, template_name='engLearn/word_detail.html', context={'word': word})
+    return render(request, template_name='engLearn/word_detail.html', context={'title': 'fff', 'word': word})
 
-# class WordsDetailView(DetailView):
-#     model = Words
-#     template_name = 'engLearn/word_detail.html'
+
+class WordsDetailView(DetailView):
+    model = Words
+    template_name = 'engLearn/word_detail.html'
+    context_object_name = 'word'
+    slug_url_kwarg = 'word_slug'
+
+    def get_context_data(self, **kwargs):
+        contex = super().get_context_data(**kwargs)
+        contex['title'] = 'Word Details'
+        return contex
