@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from .models import Words
@@ -27,3 +28,8 @@ class WordsDetailView(DetailView):
         contex = super().get_context_data(**kwargs)
         contex['title'] = 'Word Details'
         return contex
+
+
+@login_required
+def profile(request):
+    return render(request, 'engLearn/profile.html')
