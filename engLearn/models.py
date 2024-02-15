@@ -24,3 +24,5 @@ class Words(models.Model):
 
     def __str__(self):
         return f'{self.en_word} - {self.ru_word}'
+
+
