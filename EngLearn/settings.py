@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'engLearn.apps.EnglearnConfig',
+    'studying_now.apps.StudyingNowConfig'
 ]
 
 MIDDLEWARE = [

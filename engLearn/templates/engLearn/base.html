@@ -6,6 +6,9 @@
     {#    <link href="{% static "css/blog.css" %}" rel="stylesheet">#}
 </head>
 <body>
+<header>
+    <a href="{% url 'studying_now' %}">Studying Now</a>
+</header>
 <div id="content">
     {% block content %}
     {% endblock %}
