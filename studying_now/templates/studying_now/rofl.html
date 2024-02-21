@@ -1,1 +1,5 @@
-Проверка
+{% for obj in save_words %}
+    {% for word in obj.studying_now_word.all %}
+        {{ word.en_word }} - {{ word.ru_word }}
+    {% endfor %}
+{% endfor %}
