@@ -1,5 +1,11 @@
-{% for obj in save_words %}
-    {% for word in obj.studying_now_word.all %}
-        {{ word.en_word }} - {{ word.ru_word }}
-    {% endfor %}
+{% for word in save_words %}
+    {{ word.en_word }}
+    {{ word.ru_word }}
+    {{ word.en_example }}
+    {{ word.ru_example }}
+    <br>
+    <br>
+    <img src="{{ word.img_link }}">
+    <br>
+    <br>
 {% endfor %}
