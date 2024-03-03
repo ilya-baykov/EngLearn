@@ -18,3 +18,7 @@ class StudyingNowListView(ListView):
         studying_now_objects = models.StudyingNowModel.objects.filter(user=self.request.user)
         studying_words = chain.from_iterable([user.studying_now_word.all() for user in studying_now_objects])
         return studying_words
+
+
+def add_studying_word(request):
+    ...
