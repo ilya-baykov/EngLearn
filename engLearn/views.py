@@ -2,7 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.contrib.auth.models import User
+from studying_now.models import StudyingNowModel
 from .models import Words
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 app_name = 'engLearn'
 
@@ -33,3 +38,18 @@ class WordsDetailView(DetailView):
 @login_required
 def profile(request):
     return render(request, 'engLearn/profile.html')
+
+
+def add_to_studying_now(request, word_slug):
+    if request.method == 'POST':
+        word = Words.objects.get(slug=word_slug)
+        print(word)
+        studying_now, created = StudyingNowModel.objects.get_or_create(user=request.user)
+        if word in studying_now.studying_now_word.all():
+            messages.warning(request, f'Слово "{word}" уже сохранено для изучения.')
+        else:
+            studying_now.studying_now_word.add(word)
+            messages.success(request, f'Слово "{word}" успешно добавлено в список изучения.')
+        return HttpResponseRedirect(reverse('word_detail', args=(word_slug,)))
+    else:
+        return HttpResponseRedirect(reverse('word_detail', args=(word_slug,)))

@@ -20,5 +20,3 @@ class StudyingNowListView(ListView):
         return studying_words
 
 
-def add_studying_word(request):
-    ...

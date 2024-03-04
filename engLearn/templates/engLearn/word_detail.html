@@ -11,5 +11,8 @@
     <br>
     <img src="{{ word.img_link }}">
     <br>
-    <button>Добавить в изучение </button>
+    <form action="{% url 'add_to_studying' word.slug %}" method="POST">
+        {% csrf_token %}
+        <button>Добавить в изучение</button>
+    </form>
 {% endblock %}
