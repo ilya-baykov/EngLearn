@@ -32,6 +32,10 @@ class WordsDetailView(DetailView):
     def get_context_data(self, **kwargs):
         contex = super().get_context_data(**kwargs)
         contex['title'] = 'Word Details'
+        word = self.get_object()
+        studying_now, created = StudyingNowModel.objects.get_or_create(user=self.request.user)
+        in_list = word in studying_now.studying_now_word.all()
+        contex['in_list'] = in_list
         return contex
 
 
@@ -43,13 +47,10 @@ def profile(request):
 def add_to_studying_now(request, word_slug):
     if request.method == 'POST':
         word = Words.objects.get(slug=word_slug)
-        print(word)
         studying_now, created = StudyingNowModel.objects.get_or_create(user=request.user)
         if word in studying_now.studying_now_word.all():
             messages.warning(request, f'Слово "{word}" уже сохранено для изучения.')
         else:
             studying_now.studying_now_word.add(word)
             messages.success(request, f'Слово "{word}" успешно добавлено в список изучения.')
-        return HttpResponseRedirect(reverse('word_detail', args=(word_slug,)))
-    else:
         return HttpResponseRedirect(reverse('word_detail', args=(word_slug,)))
