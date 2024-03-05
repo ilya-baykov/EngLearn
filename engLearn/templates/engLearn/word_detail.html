@@ -1,6 +1,13 @@
 {% extends 'engLearn/base.html' %}
 {% block title %} {{ title }} {% endblock %}
 {% block content %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </ul>
+    {% endif %}
     {{ word.en_word }}
     <br>
     {{ word.ru_word }}
@@ -18,4 +25,3 @@
         </form>
     {% endif %}
 {% endblock %}
-
