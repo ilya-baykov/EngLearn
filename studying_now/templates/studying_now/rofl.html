@@ -1,11 +1,15 @@
-{% for word in save_words reversed %}
-    {{ word.en_word }}
-    {{ word.ru_word }}
-    {{ word.en_example }}
-    {{ word.ru_example }}
-    <br>
-    <br>
-    <img src="{{ word.img_link }}">
-    <br>
-    <br>
-{% endfor %}
+{% extends 'engLearn/base.html' %}
+{% block title %} {{ title }}{% endblock %}
+{% block content %}
+    {% for word in save_words reversed %}
+        {{ word.en_word }}
+        {{ word.ru_word }}
+        {{ word.en_example }}
+        {{ word.ru_example }}
+        <br>
+        <br>
+        <img src="{{ word.img_link }}">
+        <br>
+        <br>
+    {% endfor %}
+{% endblock %}

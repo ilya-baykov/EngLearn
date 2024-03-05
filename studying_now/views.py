@@ -25,3 +25,8 @@ class StudyingNowListView(ListView):
             '-studying_now_word__date_added')
 
         return studying_words
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Studying now'
+        return context
