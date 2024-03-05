@@ -12,14 +12,13 @@ from django.contrib import messages
 
 class StudyingNowListView(ListView):
     model = models.StudyingNowModel
-    template_name = 'studying_now/rofl.html'
+    template_name = 'studying_now/studying_now_list.html'
     context_object_name = 'save_words'
 
     def get_queryset(self):
         studying_now_objects = StudyingNowModel.objects.filter(user=self.request.user)
         studying_words = Words.objects.filter(studying_now_word__in=studying_now_objects).order_by(
             '-studying_now_word__date_added')
-
         return studying_words
 
     def get_context_data(self, **kwargs):
