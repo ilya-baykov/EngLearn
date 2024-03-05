@@ -4,9 +4,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from studying_now.models import StudyingNowModel
 from .models import Words
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-from django.contrib import messages
+
 
 app_name = 'engLearn'
 
@@ -43,17 +41,3 @@ class WordsDetailView(DetailView):
         return context
 
 
-def add_to_studying_now(request, word_slug):
-    if request.method == 'POST':
-        word = Words.objects.get(slug=word_slug)
-        studying_now = StudyingNowModel.objects.get(user=request.user)
-        print(studying_now)
-        if word in studying_now.studying_now_word.all():
-            messages.warning(request, f'Слово "{word}" уже сохранено для изучения.')
-            in_list = True
-        else:
-            studying_now.studying_now_word.add(word)
-            messages.success(request, f'Слово "{word}" успешно добавлено в список изучения.')
-            in_list = False
-        uri = reverse('word_detail', args=(word_slug,))
-        return HttpResponseRedirect(uri, messages)

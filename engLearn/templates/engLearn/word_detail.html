@@ -1,6 +1,9 @@
 {% extends 'engLearn/base.html' %}
 {% block title %} {{ title }} {% endblock %}
 {% block content %}
+    <br>
+    <br>
+
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}
@@ -8,13 +11,13 @@
             {% endfor %}
         </ul>
     {% endif %}
-    {{ word.en_word }}
+    {{ word.en_word }} -     {{ word.ru_word }}
+
     <br>
-    {{ word.ru_word }}
     <br>
-    {{ word.en_example }}
+    {{ word.en_example }} -     {{ word.ru_example }}
+
     <br>
-    {{ word.ru_example }}
     <br>
     <img src="{{ word.img_link }}">
     <br>
