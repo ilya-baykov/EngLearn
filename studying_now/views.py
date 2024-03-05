@@ -36,7 +36,9 @@ def add_to_studying_now(request, word_slug):
         else:
             studying_now.studying_now_word.add(word)
             messages.success(request, f'Слово "{word}" успешно добавлено в список изучения.')
-    uri = reverse('word_detail', args=(word_slug,))
+    page_number = request.POST.get('page')
+    print(page_number)
+    uri = reverse('word_detail', args=(word_slug,)) + f'?page={page_number}'
     return HttpResponseRedirect(uri)
 
 
