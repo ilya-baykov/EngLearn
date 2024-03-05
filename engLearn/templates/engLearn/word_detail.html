@@ -1,13 +1,23 @@
 {% extends 'engLearn/base.html' %}
 {% block title %} {{ title }} {% endblock %}
 {% block content %}
-    {{ word.en_word }}
     <br>
-    {{ word.ru_word }}
     <br>
-    {{ word.en_example }}
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {{ word.en_word }} -     {{ word.ru_word }}
+
     <br>
-    {{ word.ru_example }}
+    <br>
+    {{ word.en_example }} -     {{ word.ru_example }}
+
+    <br>
     <br>
     <img src="{{ word.img_link }}">
     <br>
@@ -18,4 +28,3 @@
         </form>
     {% endif %}
 {% endblock %}
-

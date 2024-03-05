@@ -1,11 +1,24 @@
-{% for word in save_words reversed %}
-    {{ word.en_word }}
-    {{ word.ru_word }}
-    {{ word.en_example }}
-    {{ word.ru_example }}
+{% extends 'engLearn/base.html' %}
+{% block title %} {{ title }}{% endblock %}
+{% block content %}
     <br>
     <br>
-    <img src="{{ word.img_link }}">
-    <br>
-    <br>
-{% endfor %}
+    {% for word in save_words reversed %}
+        {{ word.en_word }} - {{ word.ru_word }}
+        <br>
+        <br>
+        {{ word.en_example }} - {{ word.ru_example }}
+        <br>
+        <br>
+        <br>
+        <img src="{{ word.img_link }}">
+        <br>
+        <br>
+        <form action="{% url 'remove_from_studying' word.slug %}" method="POST">
+            {% csrf_token %}
+            <button>Удалить слово из списка</button>
+        </form>
+        <br>
+        <br>
+    {% endfor %}
+{% endblock %}

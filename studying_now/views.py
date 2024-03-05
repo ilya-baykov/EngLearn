@@ -1,14 +1,10 @@
-from django.contrib.auth.models import User
-from django.shortcuts import render
-# Create your views here.
 from django.views.generic import ListView
-
 from engLearn.models import Words
 from . import models
-from itertools import chain
-from operator import attrgetter
-
 from .models import StudyingNowModel
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.contrib import messages
 
 
 # Create your models here.
@@ -25,3 +21,30 @@ class StudyingNowListView(ListView):
             '-studying_now_word__date_added')
 
         return studying_words
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Studying now'
+        return context
+
+
+def add_to_studying_now(request, word_slug):
+    if request.method == 'POST':
+        word = Words.objects.get(slug=word_slug)
+        studying_now = StudyingNowModel.objects.get(user=request.user)
+        if word in studying_now.studying_now_word.all():
+            messages.warning(request, f'Слово "{word}" уже сохранено для изучения.')
+        else:
+            studying_now.studying_now_word.add(word)
+            messages.success(request, f'Слово "{word}" успешно добавлено в список изучения.')
+    uri = reverse('word_detail', args=(word_slug,))
+    return HttpResponseRedirect(uri)
+
+
+def remove_from_studying_now(request, word_slug):
+    if request.method == 'POST':
+        word = Words.objects.get(slug=word_slug)
+        studying_now = StudyingNowModel.objects.get(user=request.user)
+        studying_now.studying_now_word.remove(word)
+        uri = reverse('studying_now')
+        return HttpResponseRedirect(uri, messages)

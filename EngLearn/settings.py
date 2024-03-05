@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'engLearn.apps.EnglearnConfig',
-    'studying_now.apps.StudyingNowConfig'
+    'studying_now.apps.StudyingNowConfig',
+    'easy_thumbnails',
 ]
 
 MIDDLEWARE = [
