@@ -11,6 +11,7 @@
             {% endfor %}
         </ul>
     {% endif %}
+
     {{ word.en_word }} -     {{ word.ru_word }}
 
     <br>
@@ -24,7 +25,14 @@
     {% if not in_list %}
         <form action="{% url 'add_to_studying' word.slug %}" method="POST">
             {% csrf_token %}
+            <input type="hidden" name="page" value="{{ page_number }}">
             <button>Добавить в изучение</button>
         </form>
+    {% else %}
+        {% if not messages %}
+            <h2>Это слово уже находится в списке на изучение :3</h2>
+        {% endif %}
     {% endif %}
+    <br>
+    <a href="{% url 'home' %}?page={{ page_number }}">Назад</a>
 {% endblock %}

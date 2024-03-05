@@ -12,14 +12,13 @@ from django.contrib import messages
 
 class StudyingNowListView(ListView):
     model = models.StudyingNowModel
-    template_name = 'studying_now/rofl.html'
+    template_name = 'studying_now/studying_now_list.html'
     context_object_name = 'save_words'
 
     def get_queryset(self):
         studying_now_objects = StudyingNowModel.objects.filter(user=self.request.user)
         studying_words = Words.objects.filter(studying_now_word__in=studying_now_objects).order_by(
             '-studying_now_word__date_added')
-
         return studying_words
 
     def get_context_data(self, **kwargs):
@@ -37,7 +36,9 @@ def add_to_studying_now(request, word_slug):
         else:
             studying_now.studying_now_word.add(word)
             messages.success(request, f'Слово "{word}" успешно добавлено в список изучения.')
-    uri = reverse('word_detail', args=(word_slug,))
+    page_number = request.POST.get('page')
+    print(page_number)
+    uri = reverse('word_detail', args=(word_slug,)) + f'?page={page_number}'
     return HttpResponseRedirect(uri)
 
 

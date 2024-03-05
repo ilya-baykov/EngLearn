@@ -38,6 +38,7 @@ class WordsDetailView(DetailView):
         studying_now, created = StudyingNowModel.objects.get_or_create(user=self.request.user)
         in_list = word in studying_now.studying_now_word.all()
         context['in_list'] = in_list
+        context['page_number'] = self.request.GET.get('page')
         return context
 
 
