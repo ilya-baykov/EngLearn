@@ -9,6 +9,9 @@
 <header>
     <h2><a href="{% url 'home' %}">Home</a></h2>
     <h2>{{ user.username }}</h2>
+    <a href="{% url 'my_added_words_list' %}">My added words</a>
+    <br>
+    <br>
     <a href="{% url 'studying_now' %}">Studying Now</a>
 </header>
 <div id="content">

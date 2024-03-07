@@ -1,0 +1,17 @@
+{% extends 'engLearn/base.html' %}
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+    <P>{{ my_added_words }}</P>
+    {% for word in my_added_words %}
+        {{ word.en_word }} - {{ word.ru_word }}
+        <br>
+        <br>
+        {{ word.en_example }} - {{ word.ru_word }}
+        <br>
+        <br>
+        {{ word.img }}
+        <br>
+        <br>
+    {% endfor %}
+
+{% endblock %}

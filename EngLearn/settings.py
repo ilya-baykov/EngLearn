@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'engLearn.apps.EnglearnConfig',
+    'my_added_words.apps.MyAddedWordsConfig',
     'studying_now.apps.StudyingNowConfig',
     'easy_thumbnails',
 ]
