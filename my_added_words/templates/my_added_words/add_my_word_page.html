@@ -1,0 +1,16 @@
+{% extends 'engLearn/base.html' %}
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <p><input type="submit" value="Добавить"></p>
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+    </form>
+{% endblock %}

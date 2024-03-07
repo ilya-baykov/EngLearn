@@ -3,10 +3,11 @@
 {% block content %}
     <br>
     <br>
-    <form>
-        {% csrf_token %}
-        <button>Добавить слово на изучение</button>
-    </form>
+{#    <form method="POST" action="{% url 'add_to_my_added_word' %}">#}
+{#        {% csrf_token %}#}
+{#        <button>Добавить слово на изучение</button>#}
+{#    </form>#}
+    <a href="{% url 'add_to_my_added_word' %}">Добавить слово на изучение</a>
     <br>
     <br>
     {% if my_added_words %}
