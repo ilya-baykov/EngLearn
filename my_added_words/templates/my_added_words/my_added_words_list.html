@@ -3,20 +3,30 @@
 {% block content %}
     <br>
     <br>
-    {% for word in my_added_words %}
-        {{ word.en_word }} - {{ word.ru_word }}
-        <br>
-        <br>
-        {{ word.en_example }} - {{ word.ru_word }}
-        <br>
-        <br>
-        <img src="{% if word.img %}{{ word.img.url }}{% endif %}" width="350" height="250">
-        <br>
-        <br>
-        <form>
-            <button>Удалить слово из списка </button>
-        </form>
-        <br>
-    {% endfor %}
-
+    <form>
+        {% csrf_token %}
+        <button>Добавить слово на изучение</button>
+    </form>
+    <br>
+    <br>
+    {% if my_added_words %}
+        {% for word in my_added_words %}
+            {{ word.en_word }} - {{ word.ru_word }}
+            <br>
+            <br>
+            {{ word.en_example }} - {{ word.ru_word }}
+            <br>
+            <br>
+            <img src="{% if word.img %}{{ word.img.url }}{% endif %}" width="350" height="250">
+            <br>
+            <br>
+            <form action="{% url 'remove_from_my_added_word' word.slug %}" method="POST">
+                {% csrf_token %}
+                <button>Удалить слово из списка</button>
+            </form>
+            <br>
+        {% endfor %}
+    {% else %}
+        <h1>Список ваших слов сейчас пуст :c </h1>
+    {% endif %}
 {% endblock %}
