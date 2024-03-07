@@ -13,6 +13,10 @@
         <img src="{% if word.img %}{{ word.img.url }}{% endif %}" width="350" height="250">
         <br>
         <br>
+        <form>
+            <button>Удалить слово из списка </button>
+        </form>
+        <br>
     {% endfor %}
 
 {% endblock %}
