@@ -37,7 +37,6 @@ def add_to_studying_now(request, word_slug):
             studying_now.studying_now_word.add(word)
             messages.success(request, f'Слово "{word}" успешно добавлено в список изучения.')
     page_number = request.POST.get('page')
-    print(page_number)
     uri = reverse('word_detail', args=(word_slug,)) + f'?page={page_number}'
     return HttpResponseRedirect(uri)
 
@@ -48,4 +47,4 @@ def remove_from_studying_now(request, word_slug):
         studying_now = StudyingNowModel.objects.get(user=request.user)
         studying_now.studying_now_word.remove(word)
         uri = reverse('studying_now')
-        return HttpResponseRedirect(uri, messages)
+        return HttpResponseRedirect(uri)

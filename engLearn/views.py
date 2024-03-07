@@ -21,8 +21,8 @@ class WordsListView(ListView):
     extra_context = {'title': 'EngLearn'}
     paginate_by = 10
 
-    def get_queryset(self):
-        return Words.objects.all()
+    # def get_queryset(self):
+    #     return Words.objects.all()
 
 
 class WordsDetailView(DetailView):
