@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'engLearn.apps.EnglearnConfig',
     'my_added_words.apps.MyAddedWordsConfig',
     'studying_now.apps.StudyingNowConfig',
+    'django_cleanup.apps.CleanupConfig',
     'easy_thumbnails',
+
 ]
 
 MIDDLEWARE = [

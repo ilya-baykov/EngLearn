@@ -1,7 +1,8 @@
 {% extends 'engLearn/base.html' %}
 {% block title %} {{ title }} {% endblock %}
 {% block content %}
-    <P>{{ my_added_words }}</P>
+    <br>
+    <br>
     {% for word in my_added_words %}
         {{ word.en_word }} - {{ word.ru_word }}
         <br>
@@ -9,7 +10,7 @@
         {{ word.en_example }} - {{ word.ru_word }}
         <br>
         <br>
-        {{ word.img }}
+        <img src="{% if word.img %}{{ word.img.url }}{% endif %}" width="350" height="250">
         <br>
         <br>
     {% endfor %}
