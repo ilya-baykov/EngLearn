@@ -5,7 +5,6 @@ from django.views.generic.detail import DetailView
 from studying_now.models import StudyingNowModel
 from .models import Words
 
-
 app_name = 'engLearn'
 
 
@@ -35,10 +34,11 @@ class WordsDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Word Details'
         word = self.get_object()
-        studying_now, created = StudyingNowModel.objects.get_or_create(user=self.request.user)
-        in_list = word in studying_now.studying_now_word.all()
-        context['in_list'] = in_list
+        if self.request.user.is_authenticated:
+            studying_now, created = StudyingNowModel.objects.get_or_create(user=self.request.user)
+            in_list = word in studying_now.studying_now_word.all()
+            context['in_list'] = in_list
+        else:
+            pass
         context['page_number'] = self.request.GET.get('page')
         return context
-
-
