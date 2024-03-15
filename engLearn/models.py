@@ -2,12 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-# from studying_now.models import StudyingNowModel
-
-
-# Create your models here.
-
-
 class Words(models.Model):
     en_word = models.CharField(max_length=45)
     ru_word = models.CharField(max_length=45)
