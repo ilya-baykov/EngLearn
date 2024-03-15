@@ -19,6 +19,7 @@ class StudyingNowListView(ListView):
         studying_now_objects = StudyingNowModel.objects.filter(user=self.request.user)
         studying_now_sorted = studying_now_objects.order_by('-date_added')
         studying_words = Words.objects.filter(studying_now_word__in=studying_now_sorted)
+        print(studying_words)
         return studying_words
 
     def get_context_data(self, **kwargs):
