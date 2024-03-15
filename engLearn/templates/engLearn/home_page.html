@@ -4,6 +4,8 @@
 {% block content %}
     <h1>EngLearn</h1>
     {% for word in words %}
+        <br>
+        <br>
         <a href="{{ word.get_absolute_url }}/?page={{ page_obj.number }}"> {{ word }}</a>>
         <br>
         <img src="{{ word.img_link }}" width="80" height="60" alt="oops">

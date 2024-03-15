@@ -12,5 +12,3 @@ class StudyingNowModel(models.Model):
     def __str__(self):
         return f'{self.user.username} - {len(self.studying_now_word.all())}'
 
-    class Meta:
-        ordering = ('-date_added',)

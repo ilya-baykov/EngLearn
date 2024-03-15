@@ -20,8 +20,8 @@ class WordsListView(ListView):
     extra_context = {'title': 'EngLearn'}
     paginate_by = 10
 
-    # def get_queryset(self):
-    #     return Words.objects.all()
+    def get_queryset(self):
+        return Words.objects.all().order_by('id')
 
 
 class WordsDetailView(DetailView):
@@ -42,3 +42,7 @@ class WordsDetailView(DetailView):
             pass
         context['page_number'] = self.request.GET.get('page')
         return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.order_by('id')
