@@ -16,8 +16,7 @@ class Words(models.Model):
     slug = models.SlugField(unique=True)
     img_link = models.URLField(blank=True)
 
-    class Meta:
-        ordering = ('id',)
+
 
     def get_absolute_url(self):
         return self.slug
