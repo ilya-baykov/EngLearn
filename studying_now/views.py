@@ -20,6 +20,7 @@ class StudyingNowListView(ListView):
         studying_now_sorted = studying_now_objects.order_by('-date_added')
         studying_words = Words.objects.filter(studying_now_word__in=studying_now_sorted)
         print(studying_words)
+        in_study_words
         return studying_words
 
     def get_context_data(self, **kwargs):
@@ -30,13 +31,15 @@ class StudyingNowListView(ListView):
 
 def add_to_studying_now(request, word_slug):
     if request.method == 'POST':
+
         word = Words.objects.get(slug=word_slug)
-        studying_now = StudyingNowModel.objects.get(user=request.user)
-        if word in studying_now.studying_now_word.all():
+        user_studying_now_words = StudyingNowModel.objects.filter(user=request.user)
+        if word in user_studying_now_words.filter(word=word):
             messages.warning(request, f'Слово "{word}" уже сохранено для изучения.')
         else:
-            studying_now.studying_now_word.add(word)
+            request.user.in_study_words.add(word)
             messages.success(request, f'Слово "{word}" успешно добавлено в список изучения.')
+
     page_number = request.POST.get('page')
     uri = reverse('word_detail', args=(word_slug,)) + f'?page={page_number}'
     return HttpResponseRedirect(uri)

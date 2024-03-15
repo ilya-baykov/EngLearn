@@ -33,13 +33,9 @@ class WordsDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            print(self.request.user)
             user_studying_words = StudyingNowModel.objects.filter(user=self.request.user)
-            print(user_studying_words)
             current_word = Words.objects.get(slug=self.kwargs['word_slug'])
-            print(current_word)
             context['in_list'] = user_studying_words.filter(word=current_word)
-            print(context['in_list'])
         context['page_number'] = self.request.GET.get('page')
         return context
 
