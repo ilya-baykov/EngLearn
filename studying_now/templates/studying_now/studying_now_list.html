@@ -1,4 +1,5 @@
 {% extends 'engLearn/base.html' %}
+{% load tz %}
 {% block title %} {{ title }}{% endblock %}
 {% block content %}
     <br>
@@ -7,7 +8,7 @@
         <h2>Список слов на изучении пуст:3</h2>
     {% else %}
         {% for elem in studying_now_objects %}
-            {{ elem.date_added }}
+            {{ elem.date_added|timezone:"Europe/Moscow" }}
             {{ elem.word.en_word }} - {{ elem.word.ru_word }}
             <br>
             <br>
