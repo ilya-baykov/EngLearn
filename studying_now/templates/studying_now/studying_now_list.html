@@ -3,21 +3,22 @@
 {% block content %}
     <br>
     <br>
-    {% if not save_words  %}
+    {% if not studying_now_objects %}
         <h2>Список слов на изучении пуст:3</h2>
-        {% else %}
-        {% for word in save_words reversed %}
-            {{ word.en_word }} - {{ word.ru_word }}
+    {% else %}
+        {% for elem in studying_now_objects %}
+            {{ elem.date_added }}
+            {{ elem.word.en_word }} - {{ elem.word.ru_word }}
             <br>
             <br>
-            {{ word.en_example }} - {{ word.ru_example }}
+            {{ elem.word.en_example }} - {{ elem.word.ru_example }}
             <br>
             <br>
             <br>
-            <img src="{{ word.img_link }}">
+            <img src="{{ elem.word.img_link }}">
             <br>
             <br>
-            <form action="{% url 'remove_from_studying' word.slug %}" method="POST">
+            <form action="{% url 'remove_from_studying' elem.word.slug %}" method="POST">
                 {% csrf_token %}
                 <button>Удалить слово из списка</button>
             </form>
