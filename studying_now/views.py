@@ -6,16 +6,15 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
 
+
 class StudyingNowListView(ListView):
     model = models.StudyingNowModel
     template_name = 'studying_now/studying_now_list.html'
-    context_object_name = 'save_words'
+    context_object_name = 'studying_now_objects'
 
     def get_queryset(self):
-        studying_now_objects = StudyingNowModel.objects.filter(user=self.request.user)
-        studying_now_sorted = studying_now_objects.order_by('-date_added')
-        studying_words = Words.objects.filter(studyingnowmodel__in=studying_now_sorted)
-        return studying_words
+        studying_now_objects = StudyingNowModel.objects.filter(user=self.request.user).order_by('-date_added')
+        return studying_now_objects
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
