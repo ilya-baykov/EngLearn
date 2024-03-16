@@ -28,9 +28,11 @@ class Words(models.Model):
 class WordExamples(models.Model):
     word = models.ForeignKey(Words, on_delete=models.CASCADE, related_name='word')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    en_example_user = models.TextField()
-    ru_example_user = models.TextField()
+    en_example_user = models.CharField(max_length=150, blank=False)
+    ru_example_user = models.CharField(max_length=150, blank=False)
 
     def __str__(self):
         return f'{self.user} - {self.en_example_user}'
+
+
 from django.contrib.auth.models import User

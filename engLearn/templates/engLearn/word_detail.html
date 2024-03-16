@@ -17,7 +17,11 @@
     <br>
     <br>
     {{ word.en_example }} -     {{ word.ru_example }}
-
+    ПРОВЕРКА
+    <form action="{% url 'add_examples' word.slug %}" method="POST">
+        {% csrf_token %}
+        <button>Добавить примеров</button>
+    </form>
     <br>
     <br>
     <img src="{{ word.img_link }}">

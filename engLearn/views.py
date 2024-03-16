@@ -1,9 +1,12 @@
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, HttpResponse
+from django.urls import reverse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from studying_now.models import StudyingNowModel
-from .models import Words
+from .models import Words, WordExamples
+from .forms import WordExamplesForm
 
 app_name = 'engLearn'
 
@@ -42,3 +45,25 @@ class WordsDetailView(DetailView):
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.order_by('id')
+
+
+def add_examples(request, word_slug):
+    if request.method == 'POST':
+        form = WordExamplesForm(request.POST)
+        if form.is_valid():
+            word = Words.objects.get(slug=word_slug)
+            en_example_user = form.cleaned_data["en_example_user"]
+            ru_example_user = form.cleaned_data["ru_example_user"]
+            WordExamples.objects.create(user=request.user, word=word,
+                                        en_example_user=en_example_user,
+                                        ru_example_user=ru_example_user)
+            uri = reverse("my_added_words_list")
+            return HttpResponseRedirect(uri)
+    else:
+        form = WordExamplesForm()
+    ...
+    contex = {
+        "title": "Добавления примеров ",
+        "form": form
+    }
+    return render(request, 'engLearn/add_examples.html', contex)
