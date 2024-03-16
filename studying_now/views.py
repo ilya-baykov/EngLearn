@@ -19,8 +19,6 @@ class StudyingNowListView(ListView):
         studying_now_objects = StudyingNowModel.objects.filter(user=self.request.user)
         studying_now_sorted = studying_now_objects.order_by('-date_added')
         studying_words = Words.objects.filter(studying_now_word__in=studying_now_sorted)
-        print(studying_words)
-        in_study_words
         return studying_words
 
     def get_context_data(self, **kwargs):
@@ -34,10 +32,11 @@ def add_to_studying_now(request, word_slug):
 
         word = Words.objects.get(slug=word_slug)
         user_studying_now_words = StudyingNowModel.objects.filter(user=request.user)
-        if word in user_studying_now_words.filter(word=word):
+        if user_studying_now_words.filter(word=word):
             messages.warning(request, f'Слово "{word}" уже сохранено для изучения.')
         else:
-            request.user.in_study_words.add(word)
+            # request.user.in_study_words.add(word)
+            StudyingNowModel.objects.get_or_create(user=request.user, word=word)
             messages.success(request, f'Слово "{word}" успешно добавлено в список изучения.')
 
     page_number = request.POST.get('page')
@@ -48,7 +47,8 @@ def add_to_studying_now(request, word_slug):
 def remove_from_studying_now(request, word_slug):
     if request.method == 'POST':
         word = Words.objects.get(slug=word_slug)
-        studying_now = StudyingNowModel.objects.get(user=request.user)
-        studying_now.studying_now_word.remove(word)
+        request.user.in_study_words.remove(word)
+        # studying_now_model = StudyingNowModel.objects.get(user=request.user, word=word)
+        # studying_now_model.delete()
         uri = reverse('studying_now')
         return HttpResponseRedirect(uri)
