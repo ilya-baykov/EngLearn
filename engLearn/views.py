@@ -5,8 +5,8 @@ from django.urls import reverse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from studying_now.models import StudyingNowModel
-from .models import Words, WordExamples
-from .forms import WordExamplesForm
+from .models import Words, WordExamples, WordImageUser
+from .forms import WordExamplesForm, ChangeImageForm
 
 app_name = 'engLearn'
 
@@ -63,3 +63,18 @@ def add_examples(request, word_slug):
     else:
         form = WordExamplesForm()
         return render(request, 'engLearn/add_examples.html', {'word': word, 'form': form})
+
+
+def change_image(request, word_slug):
+    word = Words.objects.get(slug=word_slug)
+    if request.method == 'POST':
+        form = ChangeImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.cleaned_data['image']
+            obj, created = WordImageUser.objects.get_or_create(word=word, user=request.user)
+            obj.image = image
+            obj.save()
+            return redirect('word_detail', word_slug=word.slug)
+    else:
+        form = ChangeImageForm()
+    return render(request, 'engLearn/change_image.html', {'word': word, 'form': form})

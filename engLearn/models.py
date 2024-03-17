@@ -11,7 +11,11 @@ class Words(models.Model):
     img_link = models.URLField(blank=True)
     in_study = models.ManyToManyField(User, related_name='in_study_words', through="studying_now.StudyingNowModel",
                                       through_fields=('word', 'user'))
+
     user_example = models.ManyToManyField(User, related_name='user_example', through="engLearn.WordExamples",
+                                          through_fields=('word', 'user'))
+
+    user_img = models.ManyToManyField(User, related_name='user_image', through="engLearn.WordImageUser",
                                           through_fields=('word', 'user'))
 
     picurl = models.TextField(blank=True)
@@ -35,3 +39,7 @@ class WordExamples(models.Model):
         return f'{self.user} - {self.en_example_user}'
 
 
+class WordImageUser(models.Model):
+    word = models.ForeignKey(Words, on_delete=models.CASCADE, related_name='word_user_img')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='engLearn/user_word_img/%Y%m%d/', blank=True)
