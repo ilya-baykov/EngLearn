@@ -1,6 +1,6 @@
 from django.db.models import Prefetch
 from django.views.generic import ListView
-from engLearn.models import Words, WordExamples
+from engLearn.models import Words, WordExamples, WordImageUser
 from . import models
 from .models import StudyingNowModel
 from django.http import HttpResponseRedirect
@@ -19,13 +19,13 @@ class StudyingNowListView(ListView):
 
         for obj in studying_now_objects:
             obj.word.wordexamples_set = WordExamples.objects.filter(word=obj.word, user=self.request.user)
+            obj.word.user_images = WordImageUser.objects.filter(word=obj.word, user=self.request.user).first()
 
         return studying_now_objects
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Studying now'
-
         return context
 
 

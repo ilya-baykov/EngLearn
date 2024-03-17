@@ -74,7 +74,7 @@ def add_examples(request, word_slug):
             return redirect('word_detail', word_slug=word.slug)
     else:
         form = WordExamplesForm()
-        return render(request, 'engLearn/add_examples.html', {'word': word, 'form': form})
+    return render(request, 'engLearn/add_examples.html', {'word': word, 'form': form})
 
 
 def change_image(request, word_slug):

@@ -8,3 +8,5 @@ class MyWordForm(forms.Form):
                                  max_length=120)
     ru_example = forms.CharField(label="Перевод примера использования", widget=forms.Textarea, max_length=120)
     img = forms.ImageField(required=False)
+
+

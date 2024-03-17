@@ -13,8 +13,17 @@
             <br>
             {{ word.en_example }} - {{ word.ru_word }}
             <br>
+            <p>Мои примеры:</p>
+            <ul>
+                {% for example in word.my_word.all %}
+                    <li>{{ example.en_example_user }} - {{ example.ru_example_user }}</li>
+                {% endfor %}
+            </ul>
+            <form method="get" action="{% url 'add_examples_my_added_word'  word.slug %}">
+                <button>Добавить примеры</button>
+            </form>
             <br>
-            <img src="{% if word.img %}{{ word.img.url }}{% endif %}" width="350" height="250">
+            <img src="{% if word.img %}{{ word.img.url }}{% endif %}" width="450" height="350">
             <br>
             <br>
             <form action="{% url 'remove_from_my_added_word' word.slug %}" method="POST">
