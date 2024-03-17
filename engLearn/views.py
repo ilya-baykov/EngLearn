@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.urls import reverse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -39,6 +39,8 @@ class WordsDetailView(DetailView):
             user_studying_words = StudyingNowModel.objects.filter(user=self.request.user)
             current_word = Words.objects.get(slug=self.kwargs['word_slug'])
             context['in_list'] = user_studying_words.filter(word=current_word)
+            context['user_examples'] = WordExamples.objects.filter(word=current_word, user=self.request.user)
+            print(context['user_examples'])
         context['page_number'] = self.request.GET.get('page')
         return context
 
@@ -48,22 +50,16 @@ class WordsDetailView(DetailView):
 
 
 def add_examples(request, word_slug):
+    word = Words.objects.get(slug=word_slug)
     if request.method == 'POST':
         form = WordExamplesForm(request.POST)
         if form.is_valid():
-            word = Words.objects.get(slug=word_slug)
             en_example_user = form.cleaned_data["en_example_user"]
             ru_example_user = form.cleaned_data["ru_example_user"]
             WordExamples.objects.create(user=request.user, word=word,
                                         en_example_user=en_example_user,
                                         ru_example_user=ru_example_user)
-            uri = reverse("my_added_words_list")
-            return HttpResponseRedirect(uri)
+            return redirect('word_detail', word_slug=word.slug)
     else:
         form = WordExamplesForm()
-    ...
-    contex = {
-        "title": "Добавления примеров ",
-        "form": form
-    }
-    return render(request, 'engLearn/add_examples.html', contex)
+        return render(request, 'engLearn/add_examples.html', {'word': word, 'form': form})

@@ -1,0 +1,10 @@
+/* Скрыть форму по умолчанию */
+#add-examples-form {
+    display: none;
+}
+
+/* Показать форму при выборе чекбокса */
+#show-examples-checkbox:checked + #add-examples-form {
+    display: block;
+}
+
