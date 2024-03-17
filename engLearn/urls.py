@@ -8,4 +8,5 @@ urlpatterns = [
     path('', WordsListView.as_view(), name='home'),
     path('accounts/profile/', profile, name='profile'),
     path('<slug:word_slug>/', WordsDetailView.as_view(), name='word_detail'),
+    path('<slug:word_slug>/add_examples/', views.add_examples, name='add_examples'),
 ]

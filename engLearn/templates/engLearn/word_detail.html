@@ -1,4 +1,7 @@
 {% extends 'engLearn/base.html' %}
+{% load static %}
+
+
 {% block title %} {{ word.en_word.capitalize }} {% endblock %}
 {% block content %}
     <br>
@@ -17,6 +20,19 @@
     <br>
     <br>
     {{ word.en_example }} -     {{ word.ru_example }}
+
+    <br>
+    <br>
+    {% if user_examples %}
+        <h3>Мои примеры</h3>
+        {% for examples in user_examples %}
+            {{ examples.en_example_user }} - {{ examples.ru_example_user }}
+            <br>
+        {% endfor %}
+    {% endif %}
+    <form method="get" action="{% url 'add_examples'  word.slug %}">
+        <button>Добавить примеры</button>
+    </form>
 
     <br>
     <br>
@@ -44,4 +60,7 @@
 
     <br>
     <a href="{% url 'home' %}?page={{ page_number }}">Назад</a>
+
+
+
 {% endblock %}

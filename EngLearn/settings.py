@@ -23,7 +23,8 @@ SECRET_KEY = 'django-insecure-a9-%^w+o+zzl2@q1$8g$tb2^^%z70if)q7=8ek^*2_j+cmf#hg
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+TIME_ZONE = 'Europe/Moscow'
+USE_TZ = True
 ALLOWED_HOSTS = []
 
 # Application definition
