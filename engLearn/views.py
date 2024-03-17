@@ -25,21 +25,12 @@ class WordsListView(ListView):
 
     def get_queryset(self):
         return Words.objects.all().order_by('id')
-        # word_with_user_img = {}
-        # for word in queryset:
-        #     obj_word_img_q = WordImageUser.objects.filter(user=self.request.user, word=word)
-        #     if obj_word_img_q:
-        #         word_with_user_img[word] = obj_word_img_q[0].image
-        #     else:
-        #         word_with_user_img[word] = None
-        # return word_with_user_img
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user_images = WordImageUser.objects.filter(user=self.request.user).values('word__id', 'image')
         user_images_dict = {image['word__id']: image['image'] for image in user_images}
         context['user_images_dict'] = user_images_dict
-        print(context['user_images_dict'])
         return context
 
 
