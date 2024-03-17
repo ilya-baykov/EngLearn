@@ -19,6 +19,9 @@
                 {{ example.en_example_user }} - {{ example.ru_example_user }}
                 <br>
             {% endfor %}
+            <form method="get" action="{% url 'add_examples'  elem.word.slug %}">
+                <button>Добавить примеры</button>
+            </form>
             <br>
             <br>
             {% if elem.word.user_images %}
