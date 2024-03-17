@@ -15,6 +15,11 @@
             {{ elem.word.en_example }} - {{ elem.word.ru_example }}
             <br>
             <br>
+            {% for example in elem.word.wordexamples_set.all %}
+                {{ example.en_example_user }} - {{ example.ru_example_user }}
+                <br>
+            {% endfor %}
+            <br>
             <br>
             <img src="{{ elem.word.img_link }}">
             <br>
@@ -28,4 +33,3 @@
         {% endfor %}
     {% endif %}
 {% endblock %}
-

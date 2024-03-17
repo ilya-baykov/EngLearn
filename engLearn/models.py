@@ -35,4 +35,3 @@ class WordExamples(models.Model):
         return f'{self.user} - {self.en_example_user}'
 
 
-from django.contrib.auth.models import User
