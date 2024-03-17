@@ -13,6 +13,12 @@
             <br>
             {{ word.en_example }} - {{ word.ru_word }}
             <br>
+            <p>Мои примеры:</p>
+            <ul>
+                {% for example in word.my_word.all %}
+                    <li>{{ example.en_example_user }} - {{ example.ru_example_user }}</li>
+                {% endfor %}
+            </ul>
             <form method="get" action="{% url 'add_examples_my_added_word'  word.slug %}">
                 <button>Добавить примеры</button>
             </form>
