@@ -40,7 +40,12 @@ class WordsDetailView(DetailView):
             current_word = Words.objects.get(slug=self.kwargs['word_slug'])
             context['in_list'] = user_studying_words.filter(word=current_word)
             context['user_examples'] = WordExamples.objects.filter(word=current_word, user=self.request.user)
-            print(context['user_examples'])
+
+            if WordImageUser.objects.filter(word=current_word, user=self.request.user):
+                context['user_img'] = WordImageUser.objects.get(word=current_word, user=self.request.user).image.url
+                print(context['user_img'])
+            else:
+                context['user_img'] = None
         context['page_number'] = self.request.GET.get('page')
         return context
 

@@ -41,7 +41,12 @@
 
     <br>
     <br>
-    <img src="{{ word.img_link }}">
+    {% if user_img %}
+        <img src="{{ user_img }}" width="420" height="330">
+    {% else %}
+        <img src="{{ word.img_link }}">
+    {% endif %}
+
     <br>
     {% if user.is_authenticated %}
         {% if not in_list %}
