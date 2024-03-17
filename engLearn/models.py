@@ -16,7 +16,7 @@ class Words(models.Model):
                                           through_fields=('word', 'user'))
 
     user_img = models.ManyToManyField(User, related_name='user_image', through="engLearn.WordImageUser",
-                                          through_fields=('word', 'user'))
+                                      through_fields=('word', 'user'))
 
     picurl = models.TextField(blank=True)
     picau = models.CharField(max_length=60)
@@ -43,3 +43,6 @@ class WordImageUser(models.Model):
     word = models.ForeignKey(Words, on_delete=models.CASCADE, related_name='word_user_img')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='engLearn/user_word_img/%Y%m%d/', blank=True)
+
+    def __str__(self):
+        return f"{self.user} - {self.image}"

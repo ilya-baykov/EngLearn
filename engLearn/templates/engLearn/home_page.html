@@ -1,35 +1,84 @@
+{#{% extends 'engLearn/base.html' %}#}
+{#{% block title %} EngLearn {% endblock %}#}
+{##}
+{#{% block content %}#}
+{#    <h1>EngLearn</h1>#}
+{#    {% for word in words %}#}
+{#        <br>#}
+{#        <br>#}
+{#        <a href="{{ word.get_absolute_url }}/?page={{ page_obj.number }}"> {{ word }}</a>>#}
+{#        <br>#}
+{#        <img src="{{ word.img_link }}" width="80" height="60" alt="oops">#}
+{#        <br>#}
+{#        <br>#}
+{#        <br>#}
+{#    {% endfor %}#}
+{##}
+{#    <div class="pagination">#}
+{#        <span class="step-links">#}
+{#            {% if page_obj.has_previous %}#}
+{#                <a href="?page=1">&laquo; first</a>#}
+{#                <a href="?page={{ page_obj.previous_page_number }}">previous</a>#}
+{#            {% endif %}#}
+{##}
+{#            <span class="current">#}
+{#                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
+{#            </span>#}
+{##}
+{#            {% if page_obj.has_next %}#}
+{#                <a href="?page={{ page_obj.next_page_number }}">next</a>#}
+{#                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>#}
+{#            {% endif %}#}
+{#        </span>#}
+{#    </div>#}
+{##}
+{#{% endblock %}#}
+
 {% extends 'engLearn/base.html' %}
 {% block title %} EngLearn {% endblock %}
-
 {% block content %}
     <h1>EngLearn</h1>
     {% for word in words %}
         <br>
         <br>
-        <a href="{{ word.get_absolute_url }}/?page={{ page_obj.number }}"> {{ word }}</a>>
+        {% for id,img in  user_images_dict.items %}
+            {% if word.id == id %}
+                <img src="{{ img }}" width="450" height="300">
+                <br>
+            {% else %}
+                <img src="{{ word.img_link }}">
+                <br>
+            {% endif %}
+            <a href="{{ word.get_absolute_url }}/?page={{ page_obj.number }}"> {{ word }}</a>>
+
+
+
+
+        {% endfor %}
+
         <br>
-        <img src="{{ word.img_link }}" width="80" height="60" alt="oops">
         <br>
         <br>
         <br>
     {% endfor %}
 
     <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif %}
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
 
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
             </span>
-
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
     </div>
 
 {% endblock %}
+
