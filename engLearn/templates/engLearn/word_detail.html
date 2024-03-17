@@ -33,10 +33,20 @@
     <form method="get" action="{% url 'add_examples'  word.slug %}">
         <button>Добавить примеры</button>
     </form>
+    <br>
+
+    <form method="get" action="{% url 'change_image'  word.slug %}">
+        <button>Сменить картинку</button>
+    </form>
 
     <br>
     <br>
-    <img src="{{ word.img_link }}">
+    {% if user_img %}
+        <img src="{{ user_img }}" width="420" height="330">
+    {% else %}
+        <img src="{{ word.img_link }}">
+    {% endif %}
+
     <br>
     {% if user.is_authenticated %}
         {% if not in_list %}

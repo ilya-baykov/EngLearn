@@ -5,8 +5,8 @@ from django.urls import reverse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from studying_now.models import StudyingNowModel
-from .models import Words, WordExamples
-from .forms import WordExamplesForm
+from .models import Words, WordExamples, WordImageUser
+from .forms import WordExamplesForm, ChangeImageForm
 
 app_name = 'engLearn'
 
@@ -26,6 +26,13 @@ class WordsListView(ListView):
     def get_queryset(self):
         return Words.objects.all().order_by('id')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_images = WordImageUser.objects.filter(user=self.request.user).values('word__id', 'image')
+        user_images_dict = {image['word__id']: image['image'] for image in user_images}
+        context['user_images_dict'] = user_images_dict
+        return context
+
 
 class WordsDetailView(DetailView):
     model = Words
@@ -40,7 +47,12 @@ class WordsDetailView(DetailView):
             current_word = Words.objects.get(slug=self.kwargs['word_slug'])
             context['in_list'] = user_studying_words.filter(word=current_word)
             context['user_examples'] = WordExamples.objects.filter(word=current_word, user=self.request.user)
-            print(context['user_examples'])
+
+            if WordImageUser.objects.filter(word=current_word, user=self.request.user):
+                context['user_img'] = WordImageUser.objects.get(word=current_word, user=self.request.user).image.url
+                print(context['user_img'])
+            else:
+                context['user_img'] = None
         context['page_number'] = self.request.GET.get('page')
         return context
 
@@ -63,3 +75,18 @@ def add_examples(request, word_slug):
     else:
         form = WordExamplesForm()
         return render(request, 'engLearn/add_examples.html', {'word': word, 'form': form})
+
+
+def change_image(request, word_slug):
+    word = Words.objects.get(slug=word_slug)
+    if request.method == 'POST':
+        form = ChangeImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.cleaned_data['image']
+            obj, created = WordImageUser.objects.get_or_create(word=word, user=request.user)
+            obj.image = image
+            obj.save()
+            return redirect('word_detail', word_slug=word.slug)
+    else:
+        form = ChangeImageForm()
+    return render(request, 'engLearn/change_image.html', {'word': word, 'form': form})
