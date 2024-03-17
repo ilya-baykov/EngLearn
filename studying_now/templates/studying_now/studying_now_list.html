@@ -21,7 +21,11 @@
             {% endfor %}
             <br>
             <br>
-            <img src="{{ elem.word.img_link }}">
+            {% if elem.word.user_images %}
+                <img src="{{ elem.word.user_images.image.url }}" width="450" height="350">
+            {% else %}
+                <img src="{{ elem.word.img_link }}" width="450" height="350">
+            {% endif %}
             <br>
             <br>
             <form action="{% url 'remove_from_studying' elem.word.slug %}" method="POST">

@@ -1,12 +1,32 @@
 from django.db.models import Prefetch
 from django.views.generic import ListView
-from engLearn.models import Words, WordExamples
+from engLearn.models import Words, WordExamples, WordImageUser
 from . import models
 from .models import StudyingNowModel
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
 
+
+# class StudyingNowListView(ListView):
+#     model = models.StudyingNowModel
+#     template_name = 'studying_now/studying_now_list.html'
+#     context_object_name = 'studying_now_objects'
+#
+#     def get_queryset(self):
+#         studying_now_objects = StudyingNowModel.objects.filter(user=self.request.user).order_by(
+#             '-date_added').select_related('word')
+#
+#         for obj in studying_now_objects:
+#             obj.word.wordexamples_set = WordExamples.objects.filter(word=obj.word, user=self.request.user)
+#
+#         return studying_now_objects
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['title'] = 'Studying now'
+#
+#         return context
 
 class StudyingNowListView(ListView):
     model = models.StudyingNowModel
@@ -19,13 +39,13 @@ class StudyingNowListView(ListView):
 
         for obj in studying_now_objects:
             obj.word.wordexamples_set = WordExamples.objects.filter(word=obj.word, user=self.request.user)
+            obj.word.user_images = WordImageUser.objects.filter(word=obj.word, user=self.request.user).first()
 
         return studying_now_objects
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Studying now'
-
         return context
 
 
