@@ -26,7 +26,12 @@
     {% if user_examples %}
         <h3>Мои примеры</h3>
         {% for examples in user_examples %}
-            {{ examples.en_example_user }} - {{ examples.ru_example_user }}
+            {{ examples.en_example_user }} -{{ examples.ru_example_user }}
+            <form method="POST" action="{% url 'remove_current_example' examples.id word.slug %}">
+                {% csrf_token %}
+                <button>Удалить этот комментарий</button>
+            </form>
+
             <br>
         {% endfor %}
     {% endif %}
