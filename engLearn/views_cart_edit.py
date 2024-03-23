@@ -42,9 +42,12 @@ class EditImageWordExample(UpdateView):
         return reverse_lazy('word_detail', kwargs={'word_slug': self.kwargs['word_slug']})
 
 
-def remove_current_example(request, example_id, word_slug):
-    if request.method == 'POST':
-        example = WordExamples.objects.get(id=example_id)
-        print(example)
-        example.delete()
-    return redirect('word_detail', word_slug=word_slug)
+class DeleteWordExample(DeleteView):
+    model = WordExamples
+
+    def get_object(self, queryset=None):
+        word = Words.objects.get(slug=self.kwargs['word_slug'])
+        return WordExamples.objects.get(id=self.kwargs['example_id'], word=word, user=self.request.user, )
+
+    def get_success_url(self):
+        return reverse_lazy('word_detail', kwargs={'word_slug': self.kwargs['word_slug']})
