@@ -6,7 +6,6 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from studying_now.models import StudyingNowModel
 from .models import Words, WordExamples, WordImageUser
-from .forms import WordExamplesForm, ChangeImageForm
 
 app_name = 'engLearn'
 
