@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from .models import Words, WordExamples, WordImageUser
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -23,22 +23,23 @@ class AddWordExample(CreateView):
         return reverse_lazy('word_detail', kwargs={'word_slug': word_slug})
 
 
+class EditImageWordExample(UpdateView):
+    model = WordImageUser
+    fields = ["image"]
+    template_name = 'engLearn/change_image.html'
 
+    def get_object(self, queryset=None):
+        word = Words.objects.get(slug=self.kwargs['word_slug'])
+        word_img_obj, created = WordImageUser.objects.get_or_create(word=word, user=self.request.user)
+        return word_img_obj
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.word = Words.objects.get(slug=self.kwargs['word_slug'])
+        return super().form_valid(form)
 
-def change_image(request, word_slug):
-    word = Words.objects.get(slug=word_slug)
-    if request.method == 'POST':
-        form = ChangeImageForm(request.POST, request.FILES)
-        if form.is_valid():
-            image = form.cleaned_data['image']
-            obj, created = WordImageUser.objects.get_or_create(word=word, user=request.user)
-            obj.image = image
-            obj.save()
-            return redirect('word_detail', word_slug=word.slug)
-    else:
-        form = ChangeImageForm()
-    return render(request, 'engLearn/change_image.html', {'word': word, 'form': form})
+    def get_success_url(self):
+        return reverse_lazy('word_detail', kwargs={'word_slug': self.kwargs['word_slug']})
 
 
 def remove_current_example(request, example_id, word_slug):

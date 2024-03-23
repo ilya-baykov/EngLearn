@@ -32,8 +32,8 @@ class Words(models.Model):
 class WordExamples(models.Model):
     word = models.ForeignKey(Words, on_delete=models.CASCADE, related_name='word')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    en_example_user = models.CharField(max_length=150, blank=False)
-    ru_example_user = models.CharField(max_length=150, blank=False)
+    en_example_user = models.CharField(max_length=150, blank=False, verbose_name="English Example")
+    ru_example_user = models.CharField(max_length=150, blank=False, verbose_name="Translate to Russian")
 
     def __str__(self):
         return f'{self.user} - {self.en_example_user}'
@@ -42,7 +42,7 @@ class WordExamples(models.Model):
 class WordImageUser(models.Model):
     word = models.ForeignKey(Words, on_delete=models.CASCADE, related_name='word_user_img')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='engLearn/user_word_img/%Y%m%d/', blank=True)
+    image = models.ImageField(upload_to='engLearn/user_word_img/%Y%m%d/', blank=True, verbose_name="Image")
 
     def __str__(self):
         return f"{self.user} - {self.image}"
