@@ -1,6 +1,6 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
-from django.db.models import Prefetch
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView, DeleteView
 from engLearn.models import Words, WordExamples, WordImageUser
 from . import models
 from .models import StudyingNowModel
@@ -48,30 +48,19 @@ class AddStudyingNowView(CreateView):
         except IntegrityError:
             messages.error(request, 'Произошла ошибка при добавлении слова в список изучения.')
         page_number = request.POST.get('page')
-        uri = reverse('word_detail', args=(word_slug,)) + f'?page={page_number}'
+        uri = reverse('word_detail', args=(self.kwargs['word_slug'],)) + f'?page={page_number}'
         return HttpResponseRedirect(uri)
 
 
-def add_to_studying_now(request, word_slug):
-    if request.method == 'POST':
+class RemoveFromStudyingNowView(DeleteView):
+    model = StudyingNowModel
 
-        word = Words.objects.get(slug=word_slug)
-        user_studying_now_words = StudyingNowModel.objects.filter(user=request.user)
-        if user_studying_now_words.filter(word=word):
-            messages.warning(request, f'Слово "{word}" уже сохранено для изучения.')
-        else:
-            StudyingNowModel.objects.get_or_create(user=request.user, word=word)
-            messages.success(request, f'Слово "{word}" успешно добавлено в список изучения.')
+    def get_object(self, queryset=None):
+        word = Words.objects.get(slug=self.kwargs['word_slug'])
+        return StudyingNowModel.objects.get(user=self.request.user, word=word)
 
-    page_number = request.POST.get('page')
-    uri = reverse('word_detail', args=(word_slug,)) + f'?page={page_number}'
-    return HttpResponseRedirect(uri)
-
-
-def remove_from_studying_now(request, word_slug):
-    if request.method == 'POST':
-        word = Words.objects.get(slug=word_slug)
-        studying_now_model = StudyingNowModel.objects.get(user=request.user, word=word)
-        studying_now_model.delete()
+    def get_success_url(self):
         uri = reverse('studying_now')
-        return HttpResponseRedirect(uri)
+        return uri
+
+
