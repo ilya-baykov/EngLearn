@@ -17,6 +17,12 @@
             <br>
             {% for example in elem.word.wordexamples_set.all %}
                 {{ example.en_example_user }} - {{ example.ru_example_user }}
+                <form method="post"
+                      action="{% url 'remove_example'  source="studying_now" example_id=example.id word_slug=elem.word.slug %}">
+                    {% csrf_token %}
+                    {{ form }}
+                    <input type="submit" value="Удалить этот пример">
+                </form>
                 <br>
             {% endfor %}
             <form method="get" action="{% url 'add_examples'  source='studying_now' word_slug=elem.word.slug %}">

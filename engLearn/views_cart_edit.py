@@ -54,4 +54,8 @@ class DeleteWordExample(DeleteView):
         return WordExamples.objects.get(id=self.kwargs['example_id'], word=word, user=self.request.user, )
 
     def get_success_url(self):
-        return reverse_lazy('word_detail', kwargs={'word_slug': self.kwargs['word_slug']})
+        source = self.kwargs['source']
+        if source == "word_detail":
+            return reverse_lazy('word_detail', kwargs={'word_slug': self.kwargs['word_slug']})
+        elif source == "studying_now":
+            return reverse_lazy('studying_now')

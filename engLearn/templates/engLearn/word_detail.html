@@ -28,7 +28,8 @@
         {% for examples in user_examples %}
             {{ examples.en_example_user }} - {{ examples.ru_example_user }}
 
-            <form method="post" action="{% url 'remove_example'  example_id=examples.id word_slug=word.slug %}">
+            <form method="post"
+                  action="{% url 'remove_example' source='word_detail' example_id=examples.id word_slug=word.slug %}">
                 {% csrf_token %}
                 {{ form }}
                 <input type="submit" value="Удалить этот пример">
