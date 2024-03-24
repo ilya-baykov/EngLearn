@@ -1,10 +1,7 @@
 from django.contrib import messages
-from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.text import slugify
-from django.views import View
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from . import models
@@ -32,6 +29,7 @@ class AddMyWord(CreateView):
     model = MyWords
     fields = ["en_word", "ru_word", "en_example", "ru_example", "img"]
     template_name = 'my_added_words/add_my_word_page.html'
+    success_url = reverse_lazy('my_added_words_list')
     extra_context = {
         'title': "Добавление слова"
     }
@@ -41,20 +39,13 @@ class AddMyWord(CreateView):
         form.instance.slug = slugify(form.instance.en_word)
         return super().form_valid(form)
 
-    def get_success_url(self):
-        return reverse_lazy('my_added_words_list')
 
+class RemoveMyWord(DeleteView):
+    model = MyWords
+    success_url = reverse_lazy('my_added_words_list')
 
-def remove_from_my_added_word(request, word_slug):
-    if request.method == 'POST':
-        try:
-            word = models.MyWords.objects.get(slug=word_slug)
-            word.delete()
-            messages.success(request, "Слово было удалено из списка")
-        except models.MyWords.DoesNotExist:
-            messages.error(request, f"Слово - {word_slug} не было найдено")
-    uri = reverse('my_added_words_list')
-    return HttpResponseRedirect(uri)
+    def get_object(self, queryset=None):
+        return models.MyWords.objects.get(slug=self.kwargs['word_slug'])
 
 
 class AddExampleView(CreateView):
