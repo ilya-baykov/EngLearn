@@ -61,3 +61,12 @@ class AddExampleView(CreateView):
 
     def get_success_url(self):
         return reverse_lazy('my_added_words_list')
+
+
+class RemoveExample(DeleteView):
+    model = MyWordExamples
+    success_url = reverse_lazy('my_added_words_list')
+
+    def get_object(self, queryset=None):
+        my_word = models.MyWords.objects.get(slug=self.kwargs['word_slug'])
+        return MyWordExamples.objects.get(id=self.kwargs['example_id'], my_word=my_word, user=self.request.user)
