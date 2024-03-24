@@ -19,8 +19,12 @@ class AddWordExample(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        word_slug = self.kwargs['word_slug']
-        return reverse_lazy('word_detail', kwargs={'word_slug': word_slug})
+        source = self.kwargs['source']
+        if source == "word_detail":
+            word_slug = self.kwargs['word_slug']
+            return reverse_lazy('word_detail', kwargs={'word_slug': word_slug})
+        elif source == "studying_now":
+            return reverse_lazy('studying_now')
 
 
 class EditImageWordExample(UpdateView):

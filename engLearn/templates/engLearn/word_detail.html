@@ -37,7 +37,7 @@
             <br>
         {% endfor %}
     {% endif %}
-    <form method="get" action="{% url 'add_examples'  word.slug %}">
+    <form method="get" action="{% url 'add_examples'  source='word_detail' word_slug=word.slug %}">
         <button>Добавить примеры</button>
     </form>
     <br>
@@ -57,7 +57,7 @@
     <br>
     {% if user.is_authenticated %}
         {% if not in_list %}
-            <form action="{% url 'add_to_studying' word.slug %}" method="POST">
+            <form action="{% url 'add_to_studying'  word_slug=word.slug %}" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="page" value="{{ page_number }}">
                 <button>Добавить в изучение</button>
