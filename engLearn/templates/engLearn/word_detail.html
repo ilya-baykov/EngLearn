@@ -31,7 +31,7 @@
             <form method="post" action="{% url 'remove_example'  example_id=examples.id word_slug=word.slug %}">
                 {% csrf_token %}
                 {{ form }}
-                <input type="submit" value="Удалить этот комментарий">
+                <input type="submit" value="Удалить этот пример">
             </form>
 
             <br>

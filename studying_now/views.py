@@ -1,10 +1,11 @@
+from django.db import IntegrityError
 from django.db.models import Prefetch
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView
 from engLearn.models import Words, WordExamples, WordImageUser
 from . import models
 from .models import StudyingNowModel
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 
 
@@ -27,6 +28,28 @@ class StudyingNowListView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Studying now'
         return context
+
+
+class AddStudyingNowView(CreateView):
+    model = StudyingNowModel
+    fields = []
+
+    def post(self, request, *args, **kwargs):
+        try:
+            word_slug = self.kwargs['word_slug']
+            word = Words.objects.get(slug=word_slug)
+            user = self.request.user
+            user_studying_now_words = StudyingNowModel.objects.filter(user=user)
+            if user_studying_now_words.filter(word=word):
+                messages.warning(request, f'Слово "{word}" уже сохранено для изучения.')
+            else:
+                StudyingNowModel.objects.create(user=user, word=word)
+                messages.success(request, f'Слово "{word}" успешно добавлено в список изучения.')
+        except IntegrityError:
+            messages.error(request, 'Произошла ошибка при добавлении слова в список изучения.')
+        page_number = request.POST.get('page')
+        uri = reverse('word_detail', args=(word_slug,)) + f'?page={page_number}'
+        return HttpResponseRedirect(uri)
 
 
 def add_to_studying_now(request, word_slug):
